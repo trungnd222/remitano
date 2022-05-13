@@ -1,0 +1,27 @@
+$primary: #006eff;
+$gray: #667685;
+$grayish: #667685;
+
+$grey: #c4c4c4;
+$greyish: #e0e0e0;
+
+$white: #ffffff;
+$black: #000000;
+$red: #fe5050;
+$secondary: #ebf5ff;
+
+.truncate-a-line {
+  flex: 1;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@mixin truncate-multi-lines($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
