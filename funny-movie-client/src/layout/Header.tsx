@@ -105,7 +105,7 @@ export default function Header() {
                 }
                 {user &&
                     <>
-                        <p>Welcome: trungnd@gmail.com</p>
+                        <p>Welcome: {user.email}</p>
                         <button onClick={() => { navigate("/share") }}>Share a movie</button>
                         <button>Logout</button>
                     </>

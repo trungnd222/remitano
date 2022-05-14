@@ -1,7 +1,9 @@
 package com.remitano.demo.service;
 
+import com.remitano.demo.common.AppConstant;
 import com.remitano.demo.entity.UserEntity;
 import com.remitano.demo.repository.UserRepository;
+import com.remitano.demo.util.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,9 @@ public class UserService {
         if (optionalUser.isPresent()) {
             throw new Exception(String.format("email: %s is exits!", userEntity.getEmail()));
         }
+        String rawPassword = userEntity.getPassword();
+        String securePassword = PasswordUtils.generateSecurePassword(rawPassword, AppConstant.SALT_PASSWORD);
+        userEntity.setPassword(securePassword);
         return userRepository.saveAndFlush(userEntity);
     }
 
@@ -27,7 +32,8 @@ public class UserService {
         Optional<UserEntity> optionalUser = userRepository.findById(email);
         if (optionalUser.isPresent()) {
             UserEntity user = optionalUser.get();
-            if (user.getPassword().equals(pass)) {
+            boolean isOk = PasswordUtils.verifyUserPassword(pass, user.getPassword(), AppConstant.SALT_PASSWORD);
+            if (isOk) {
                 return user;
             }
         }
